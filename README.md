@@ -24,7 +24,8 @@ Configure the build
 ```sh
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=/usr
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib
 ```
 
 Now trigger the build by running the following command
@@ -37,6 +38,15 @@ To install run
 
 ```sh
 sudo make install
+```
+
+
+## Install dynamic-wallpaper-importer using a package manager
+
+Arch Linux:
+
+```sh
+yay -S dynamic-wallpaper-importer
 ```
 
 
