@@ -53,6 +53,10 @@ yay -S dynamic-wallpaper-importer
 ## Usage
 
 ```
+$ dynamic-wallpaper-importer --source wallpaper.heic --id fancy_wallpaper --label "Fancy Wallpaper"
+```
+
+```
 $ dynamic-wallpaper-importer --help
 Usage: dynamic-wallpaper-importer [options]
 Dynamic wallpaper importer
