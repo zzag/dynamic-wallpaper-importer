@@ -1,5 +1,8 @@
 # dynamic-wallpaper-importer
 
+**Update**: if you experience issues with this tool like getting "No meta box"
+errors, see https://github.com/strukturag/libheif/issues/172
+
 
 ## Building dynamic-wallpaper-importer from Git
 
