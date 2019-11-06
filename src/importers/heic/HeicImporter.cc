@@ -192,7 +192,7 @@ static bool associateTimedMetaData(const QByteArray& metaData, QVector<Wallpaper
     return true;
 }
 
-static bool isHeicFile(const QString& fileName)
+static bool isHeifFile(const QString& fileName)
 {
     const QMimeDatabase database;
 
@@ -209,7 +209,7 @@ static bool isHeicFile(const QString& fileName)
 
 std::unique_ptr<Wallpaper> HeicImporter::load(const QString& fileName) const
 {
-    if (!isHeicFile(fileName))
+    if (!isHeifFile(fileName))
         return nullptr;
 
     QScopedPointer<heif_context, HeifContextDeleter> context(heif_context_alloc());
