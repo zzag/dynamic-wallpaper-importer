@@ -12,7 +12,13 @@ a couple of prerequisites.
 Arch Linux:
 
 ```sh
-sudo pacman -S libheif libplist qt5-base
+sudo pacman -S cmake extra-cmake-modules git libheif libplist qt5-base
+```
+
+Ubuntu:
+
+```sh
+sudo apt install cmake extra-cmake-modules git libheif-dev libplist-dev qtbase5-dev
 ```
 
 Once all prerequisites are installed, you need to grab the source code
