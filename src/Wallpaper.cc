@@ -22,7 +22,7 @@ Wallpaper::Wallpaper()
 {
 }
 
-Wallpaper::Wallpaper(Type type, const QVector<Image>& images)
+Wallpaper::Wallpaper(Type type, const QVector<Image> &images)
     : m_images(images)
     , m_type(type)
 {

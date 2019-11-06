@@ -25,7 +25,7 @@
 #include "Wallpaper.h"
 #include "Writer.h"
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
     QGuiApplication app(argc, argv);
     QCoreApplication::setApplicationName("dynamic-wallpaper-importer");

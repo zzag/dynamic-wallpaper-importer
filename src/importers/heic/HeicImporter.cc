@@ -28,14 +28,15 @@
 
 Q_LOGGING_CATEGORY(heic, "heic")
 
-struct HeifContextDeleter {
-    static void cleanup(heif_context* context)
+struct HeifContextDeleter
+{
+    static void cleanup(heif_context *context)
     {
         heif_context_free(context);
     }
 };
 
-HeicImporter::HeicImporter(QObject* parent)
+HeicImporter::HeicImporter(QObject *parent)
     : Importer(parent)
 {
 }
@@ -44,7 +45,7 @@ HeicImporter::~HeicImporter()
 {
 }
 
-static QVector<Wallpaper::Image> discoverImages(heif_context* context)
+static QVector<Wallpaper::Image> discoverImages(heif_context *context)
 {
     QVector<Wallpaper::Image> images;
 
@@ -52,19 +53,19 @@ static QVector<Wallpaper::Image> discoverImages(heif_context* context)
     QVector<heif_item_id> imageIds(imageCount);
     heif_context_get_list_of_top_level_image_IDs(context, imageIds.data(), imageCount);
 
-    for (const heif_item_id& id : imageIds) {
-        heif_image_handle* handle = nullptr;
+    for (const heif_item_id &id : imageIds) {
+        heif_image_handle *handle = nullptr;
         heif_error error = heif_context_get_image_handle(context, id, &handle);
         if (error.code != heif_error_Ok)
             continue;
 
-        heif_image* image = nullptr;
+        heif_image *image = nullptr;
         error = heif_decode_image(handle, &image, heif_colorspace_RGB, heif_chroma_interleaved_24bit, nullptr);
         if (error.code != heif_error_Ok)
             continue;
 
         int bytesPerLine = 0;
-        const uint8_t* data = heif_image_get_plane_readonly(image, heif_channel_interleaved, &bytesPerLine);
+        const uint8_t *data = heif_image_get_plane_readonly(image, heif_channel_interleaved, &bytesPerLine);
         if (!data)
             continue;
 
@@ -79,9 +80,9 @@ static QVector<Wallpaper::Image> discoverImages(heif_context* context)
     return images;
 }
 
-static QByteArray discoverMetaData(heif_context* context)
+static QByteArray discoverMetaData(heif_context *context)
 {
-    heif_image_handle* handle = nullptr;
+    heif_image_handle *handle = nullptr;
     heif_context_get_primary_image_handle(context, &handle);
 
     const int metaDataCount = heif_image_handle_get_number_of_metadata_blocks(handle, nullptr);
@@ -115,7 +116,7 @@ static QByteArray discoverMetaData(heif_context* context)
     return QByteArray::fromBase64(rawMetaData.toUtf8());
 }
 
-static Wallpaper::Type wallpaperTypeFromMetaData(const QByteArray& metaData)
+static Wallpaper::Type wallpaperTypeFromMetaData(const QByteArray &metaData)
 {
     Wallpaper::Type type = Wallpaper::Unknown;
 
@@ -127,7 +128,7 @@ static Wallpaper::Type wallpaperTypeFromMetaData(const QByteArray& metaData)
     plist_t plist;
     plist_from_memory(metaData.data(), metaData.size(), &plist);
 
-    for (const QPair<QByteArray, Wallpaper::Type>& pair : types) {
+    for (const QPair<QByteArray, Wallpaper::Type> &pair : types) {
         if (!plist_dict_get_item(plist, pair.first))
             continue;
         type = pair.second;
@@ -139,7 +140,7 @@ static Wallpaper::Type wallpaperTypeFromMetaData(const QByteArray& metaData)
     return type;
 }
 
-static bool associateSolarMetaData(const QByteArray& metaData, QVector<Wallpaper::Image>& images)
+static bool associateSolarMetaData(const QByteArray &metaData, QVector<Wallpaper::Image> &images)
 {
     plist_t plist;
     plist_from_memory(metaData.data(), metaData.size(), &plist);
@@ -167,7 +168,7 @@ static bool associateSolarMetaData(const QByteArray& metaData, QVector<Wallpaper
     return true;
 }
 
-static bool associateTimedMetaData(const QByteArray& metaData, QVector<Wallpaper::Image>& images)
+static bool associateTimedMetaData(const QByteArray &metaData, QVector<Wallpaper::Image> &images)
 {
     plist_t plist;
     plist_from_memory(metaData.data(), metaData.size(), &plist);
@@ -192,7 +193,7 @@ static bool associateTimedMetaData(const QByteArray& metaData, QVector<Wallpaper
     return true;
 }
 
-static bool isHeifFile(const QString& fileName)
+static bool isHeifFile(const QString &fileName)
 {
     const QMimeDatabase database;
 
@@ -207,7 +208,7 @@ static bool isHeifFile(const QString& fileName)
     return false;
 }
 
-std::unique_ptr<Wallpaper> HeicImporter::load(const QString& fileName) const
+std::unique_ptr<Wallpaper> HeicImporter::load(const QString &fileName) const
 {
     if (!isHeifFile(fileName))
         return nullptr;

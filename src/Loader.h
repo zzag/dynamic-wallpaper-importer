@@ -28,11 +28,12 @@ class Wallpaper;
 /**
  * The Loader class provides means for loading dynamic wallpapers.
  */
-class Q_DECL_EXPORT Loader : public QObject {
+class Q_DECL_EXPORT Loader : public QObject
+{
     Q_OBJECT
 
 public:
-    explicit Loader(QObject* parent = nullptr);
+    explicit Loader(QObject *parent = nullptr);
     ~Loader() override;
 
     /**
@@ -44,10 +45,10 @@ public:
      *
      * Returns @c null if the dynamic wallpaper wasn't loaded successfully.
      */
-    std::unique_ptr<Wallpaper> load(const QString& fileName) const;
+    std::unique_ptr<Wallpaper> load(const QString &fileName) const;
 
 private:
-    QVector<Importer*> m_importers;
+    QVector<Importer *> m_importers;
 
     Q_DISABLE_COPY(Loader)
 };

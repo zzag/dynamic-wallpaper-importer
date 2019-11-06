@@ -31,35 +31,35 @@ static QStringList discoverCandidates()
     QStringList candidates;
 
     const QStringList libraryPaths = QCoreApplication::libraryPaths();
-    for (const QString& path : libraryPaths) {
+    for (const QString &path : libraryPaths) {
         const QDir pluginDir(path + QLatin1String("/dynamic-wallpaper/importers/"));
         if (!pluginDir.exists())
             continue;
         const QStringList entries = pluginDir.entryList(QDir::Files | QDir::NoDotAndDotDot);
-        for (const QString& entry : entries)
+        for (const QString &entry : entries)
             candidates << pluginDir.absoluteFilePath(entry);
     }
 
     return candidates;
 }
 
-static QVector<Importer*> discoverImporters()
+static QVector<Importer *> discoverImporters()
 {
-    QVector<Importer*> importers;
+    QVector<Importer *> importers;
 
     const QStringList candidates = discoverCandidates();
-    for (const QString& candidate : candidates) {
+    for (const QString &candidate : candidates) {
         if (!QLibrary::isLibrary(candidate))
             continue;
         QPluginLoader loader(candidate);
-        if (Importer* importer = qobject_cast<Importer*>(loader.instance()))
+        if (Importer *importer = qobject_cast<Importer *>(loader.instance()))
             importers << importer;
     }
 
     return importers;
 }
 
-Loader::Loader(QObject* parent)
+Loader::Loader(QObject *parent)
     : QObject(parent)
     , m_importers(discoverImporters())
 {
@@ -69,12 +69,12 @@ Loader::~Loader()
 {
 }
 
-std::unique_ptr<Wallpaper> Loader::load(const QString& fileName) const
+std::unique_ptr<Wallpaper> Loader::load(const QString &fileName) const
 {
     if (m_importers.isEmpty())
         qWarning() << "No importer plugins have been found";
 
-    for (Importer* importer : m_importers) {
+    for (Importer *importer : m_importers) {
         std::unique_ptr<Wallpaper> wallpaper = importer->load(fileName);
         if (wallpaper)
             return wallpaper;

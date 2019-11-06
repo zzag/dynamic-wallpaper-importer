@@ -18,7 +18,7 @@
 
 #include "Importer.h"
 
-Importer::Importer(QObject* parent)
+Importer::Importer(QObject *parent)
     : QObject(parent)
 {
 }

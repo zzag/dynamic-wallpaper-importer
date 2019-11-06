@@ -25,11 +25,12 @@
 
 class Wallpaper;
 
-class Q_DECL_EXPORT Importer : public QObject {
+class Q_DECL_EXPORT Importer : public QObject
+{
     Q_OBJECT
 
 public:
-    explicit Importer(QObject* parent = nullptr);
+    explicit Importer(QObject *parent = nullptr);
     ~Importer() override;
 
     /**
@@ -37,7 +38,7 @@ public:
      *
      * This method will return @c null, if the importer failed to load the wallpaper.
      */
-    virtual std::unique_ptr<Wallpaper> load(const QString& fileName) const = 0;
+    virtual std::unique_ptr<Wallpaper> load(const QString &fileName) const = 0;
 
 private:
     Q_DISABLE_COPY(Importer)

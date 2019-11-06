@@ -26,22 +26,23 @@
 #include <functional>
 #include <memory>
 
-class Q_DECL_EXPORT Writer {
+class Q_DECL_EXPORT Writer
+{
 public:
     /**
      * Sets the preferred image file extension.
      */
-    void setFormat(const QString& format);
+    void setFormat(const QString &format);
 
     /**
      * Sets the preferred id of the wallpaper.
      */
-    void setId(const QString& id);
+    void setId(const QString &id);
 
     /**
      * Sets the preferred human-readable name of the wallpaper.
      */
-    void setName(const QString& name);
+    void setName(const QString &name);
 
     /**
      * Sets the dynamic wallpaper to be written to the disk.
@@ -51,12 +52,12 @@ public:
     /**
      * Writes the dynamic wallpaper to the disk.
      */
-    void write(const QString& targetPath = QString());
+    void write(const QString &targetPath = QString());
 
 private:
-    void forEachImage(std::function<void(const Wallpaper::Image&, int)> callback) const;
+    void forEachImage(std::function<void(const Wallpaper::Image &, int)> callback) const;
 
-    QString fileName(const QString& baseName) const;
+    QString fileName(const QString &baseName) const;
     QImage solarNoonImage() const;
     QImage timedNoonImage() const;
     QImage solarMidnightImage() const;

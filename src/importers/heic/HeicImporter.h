@@ -20,16 +20,17 @@
 
 #include "Importer.h"
 
-class Q_DECL_EXPORT HeicImporter : public Importer {
+class Q_DECL_EXPORT HeicImporter : public Importer
+{
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.github.zzag.wallpaper.Importer")
     Q_INTERFACES(Importer)
 
 public:
-    explicit HeicImporter(QObject* parent = nullptr);
+    explicit HeicImporter(QObject *parent = nullptr);
     ~HeicImporter() override;
 
-    std::unique_ptr<Wallpaper> load(const QString& fileName) const override;
+    std::unique_ptr<Wallpaper> load(const QString &fileName) const override;
 
 private:
     Q_DISABLE_COPY(HeicImporter)

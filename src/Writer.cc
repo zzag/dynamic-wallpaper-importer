@@ -24,17 +24,17 @@
 #include <QJsonObject>
 #include <QPainter>
 
-void Writer::setFormat(const QString& format)
+void Writer::setFormat(const QString &format)
 {
     m_format = format;
 }
 
-void Writer::setId(const QString& id)
+void Writer::setId(const QString &id)
 {
     m_id = id;
 }
 
-void Writer::setName(const QString& name)
+void Writer::setName(const QString &name)
 {
     m_name = name;
 }
@@ -44,7 +44,7 @@ void Writer::setWallpaper(std::shared_ptr<Wallpaper> wallpaper)
     m_wallpaper = wallpaper;
 }
 
-void Writer::write(const QString& targetPath)
+void Writer::write(const QString &targetPath)
 {
     if (!m_wallpaper)
         return;
@@ -64,16 +64,16 @@ void Writer::write(const QString& targetPath)
     writeMetaData();
 }
 
-QString Writer::fileName(const QString& baseName) const
+QString Writer::fileName(const QString &baseName) const
 {
     return baseName + QLatin1Char('.') + m_format;
 }
 
-void Writer::forEachImage(std::function<void(const Wallpaper::Image&, int)> callback) const
+void Writer::forEachImage(std::function<void(const Wallpaper::Image &, int)> callback) const
 {
     const int imageCount = m_wallpaper->images().count();
     for (int i = 0; i < imageCount; ++i) {
-        const Wallpaper::Image& image = m_wallpaper->images().at(i);
+        const Wallpaper::Image &image = m_wallpaper->images().at(i);
         callback(image, i);
     }
 }
@@ -84,7 +84,7 @@ void Writer::writeImages() const
     if (!imagesRoot.exists())
         imagesRoot.mkpath(QStringLiteral("."));
 
-    forEachImage([=](const Wallpaper::Image& image, int index) {
+    forEachImage([=](const Wallpaper::Image &image, int index) {
         const QString baseName = QString::number(index);
         image.data.save(imagesRoot.filePath(fileName(baseName)));
     });
@@ -95,7 +95,7 @@ void Writer::writeMetaData() const
     QJsonDocument document;
     QJsonArray metaDataArray;
 
-    forEachImage([&](const Wallpaper::Image& image, int index) {
+    forEachImage([&](const Wallpaper::Image &image, int index) {
         QJsonObject imageObject;
         switch (m_wallpaper->type()) {
         case Wallpaper::Solar:
@@ -142,7 +142,7 @@ QImage Writer::solarNoonImage() const
     QImage noonImage;
 
     qreal highestElevation = -90;
-    forEachImage([&](const Wallpaper::Image& image, int) {
+    forEachImage([&](const Wallpaper::Image &image, int) {
         if (image.elevation < highestElevation)
             return;
         noonImage = image.data;
@@ -157,7 +157,7 @@ QImage Writer::timedNoonImage() const
     QImage noonImage;
 
     qreal bestScore = 1;
-    forEachImage([&](const Wallpaper::Image& image, int) {
+    forEachImage([&](const Wallpaper::Image &image, int) {
         const qreal score = std::abs(image.time - 0.5);
         if (bestScore < score)
             return;
@@ -173,7 +173,7 @@ QImage Writer::solarMidnightImage() const
     QImage midnightImage;
 
     qreal lowestElevation = 90;
-    forEachImage([&](const Wallpaper::Image& image, int) {
+    forEachImage([&](const Wallpaper::Image &image, int) {
         if (lowestElevation < image.elevation)
             return;
         midnightImage = image.data;
@@ -188,7 +188,7 @@ QImage Writer::timedMidnightImage() const
     QImage midnightImage;
 
     qreal bestScore = 1;
-    forEachImage([&](const Wallpaper::Image& image, int) {
+    forEachImage([&](const Wallpaper::Image &image, int) {
         const qreal score = std::min(image.time, 1 - image.time);
         if (bestScore < score)
             return;

@@ -28,7 +28,8 @@
  *
  * As its name suggests, a dynamic wallpaper updates itself throughout the day.
  */
-class Q_DECL_EXPORT Wallpaper {
+class Q_DECL_EXPORT Wallpaper
+{
 public:
     /**
      * This enum type is used to specify the type of the dynamic wallpaper.
@@ -65,7 +66,8 @@ public:
         Timed,
     };
 
-    struct Image {
+    struct Image
+    {
         // The filename of the image.
         QImage data;
 
@@ -80,7 +82,7 @@ public:
     };
 
     Wallpaper();
-    Wallpaper(Type type, const QVector<Image>& images);
+    Wallpaper(Type type, const QVector<Image> &images);
 
     /**
      * Returns the type of the dynamic wallpaper.
