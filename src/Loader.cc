@@ -21,6 +21,7 @@
 #include "Wallpaper.h"
 
 #include <QCoreApplication>
+#include <QDebug>
 #include <QDir>
 #include <QLibrary>
 #include <QMimeDatabase>
@@ -73,6 +74,9 @@ std::unique_ptr<Wallpaper> Loader::load(const QString& fileName) const
 {
     const QMimeDatabase database;
     const QMimeType mimeType = database.mimeTypeForFile(fileName);
+
+    if (m_importers.isEmpty())
+        qWarning() << "No importer plugins have been found";
 
     for (Importer* importer : m_importers) {
         const QVector<QMimeType> supportedMimeTypes = importer->supportedMimeTypes();
