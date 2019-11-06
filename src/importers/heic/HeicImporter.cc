@@ -192,17 +192,26 @@ static bool associateTimedMetaData(const QByteArray& metaData, QVector<Wallpaper
     return true;
 }
 
-QVector<QMimeType> HeicImporter::supportedMimeTypes() const
+static bool isHeicFile(const QString& fileName)
 {
     const QMimeDatabase database;
-    return {
-        database.mimeTypeForName(QStringLiteral("image/heic")),
-        database.mimeTypeForName(QStringLiteral("image/heif")),
-    };
+
+    const QMimeType heicMimeType = database.mimeTypeForName(QStringLiteral("image/heif"));
+    const QMimeType fileMimeType = database.mimeTypeForFile(fileName);
+    if (fileMimeType == heicMimeType)
+        return true;
+
+    if (fileName.endsWith(QStringLiteral(".heic")) || fileName.endsWith(QStringLiteral(".heif")))
+        return true;
+
+    return false;
 }
 
 std::unique_ptr<Wallpaper> HeicImporter::load(const QString& fileName) const
 {
+    if (!isHeicFile(fileName))
+        return nullptr;
+
     QScopedPointer<heif_context, HeifContextDeleter> context(heif_context_alloc());
 
     heif_error error = heif_context_read_from_file(context.data(), fileName.toUtf8(), nullptr);

@@ -24,7 +24,6 @@
 #include <QDebug>
 #include <QDir>
 #include <QLibrary>
-#include <QMimeDatabase>
 #include <QPluginLoader>
 
 static QStringList discoverCandidates()
@@ -72,16 +71,10 @@ Loader::~Loader()
 
 std::unique_ptr<Wallpaper> Loader::load(const QString& fileName) const
 {
-    const QMimeDatabase database;
-    const QMimeType mimeType = database.mimeTypeForFile(fileName);
-
     if (m_importers.isEmpty())
         qWarning() << "No importer plugins have been found";
 
     for (Importer* importer : m_importers) {
-        const QVector<QMimeType> supportedMimeTypes = importer->supportedMimeTypes();
-        if (!supportedMimeTypes.contains(mimeType))
-            continue;
         std::unique_ptr<Wallpaper> wallpaper = importer->load(fileName);
         if (wallpaper)
             return wallpaper;

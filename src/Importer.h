@@ -33,11 +33,6 @@ public:
     ~Importer() override;
 
     /**
-     * Returns the list of supported mime types.
-     */
-    virtual QVector<QMimeType> supportedMimeTypes() const = 0;
-
-    /**
      * Attempts to load a dynamic wallpaper with the given @p fileName.
      *
      * This method will return @c null, if the importer failed to load the wallpaper.

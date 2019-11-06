@@ -29,7 +29,6 @@ public:
     explicit HeicImporter(QObject* parent = nullptr);
     ~HeicImporter() override;
 
-    QVector<QMimeType> supportedMimeTypes() const override;
     std::unique_ptr<Wallpaper> load(const QString& fileName) const override;
 
 private:
