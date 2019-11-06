@@ -25,9 +25,6 @@
 class Importer;
 class Wallpaper;
 
-/**
- * The Loader class provides means for loading dynamic wallpapers.
- */
 class Q_DECL_EXPORT Loader : public QObject
 {
     Q_OBJECT
@@ -36,15 +33,6 @@ public:
     explicit Loader(QObject *parent = nullptr);
     ~Loader() override;
 
-    /**
-     * Loads a dynamic wallpaper with the given @p fileName.
-     *
-     * The actual work is happening in so called importer plugins. The Loader class
-     * is only responsible for picking the correct importer and asking it to load
-     * the dynamic wallpaper. If no such an importer is found, @c null is returned.
-     *
-     * Returns @c null if the dynamic wallpaper wasn't loaded successfully.
-     */
     std::unique_ptr<Wallpaper> load(const QString &fileName) const;
 
 private:
