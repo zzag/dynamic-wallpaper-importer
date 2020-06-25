@@ -30,7 +30,7 @@
 # exported library, it must be made available by the package config file.
 
 find_package(PkgConfig)
-pkg_check_modules(PKG_libplist QUIET libplist)
+pkg_check_modules(PKG_libplist QUIET libplist-2.0 libplist)
 
 set(libplist_VERSION ${PKG_libplist_VERSION})
 set(libplist_DEFINITIONS ${PKG_libplist_CFLAGS_OTHER})
@@ -41,7 +41,7 @@ find_path(libplist_INCLUDE_DIR
 )
 
 find_library(libplist_LIBRARY
-    NAMES plist
+    NAMES plist-2.0 plist
     HINTS ${PKG_libplist_LIBRARY_DIRS}
 )
 
